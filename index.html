@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<div id="J_swf" style="background: #fff;height:400px;width:400px;"></div>
+<script type="text/javascript" src="http://i3.dpfile.com/combo/_s_js_g.mt.min.js-_s_js_g.dp.min.js-_s_j_dp.min.js-_s_j_ui.min.js-_s_j_page_header.min.js-_s_res_ga.min.js/18_72_4_3_7.js"></script> </body>
+<script type="text/javascript" src="lucky.js"></script>
+<script type="text/javascript" src="handler.js"></script>
+<script>
+    function flashdebug(s){
+        console.log(s);
+    }
+    DP.ready(function (D){
+        var handlers = Lucky.handlers,
+        lucky = new Lucky({
+            prizeListUrl : 'http://lucky.dianping.com:8070/prize/ajax/prizeInit',
+            drawUrl : 'http://lucky.dianping.com:8070/prize/ajax/prizeDraw',
+            swfUrl : 'swf/src/lucky.swf',
+            cursorUrl : 'swf/src/cursor.swf',
+            //panelUrl : 'swf/src/Panesl.png',
+            buttonUrl : 'swf/src/btn.png',
+            debugOn : false,
+            height : 400,
+            width : 400,
+            isCursorMove : true,
+            groupId : 1,
+            wrap : $("J_swf"),
+//            ratiosSeparator : "+",
+            ratios : [0.1, 0.1, 0.1,0.1, 0.1, 0.1,0.1, 0.1, 0.1,0.1],
+            onError : handlers.error,
+            onGameover : handlers.gameover,
+            onLogout : handlers.logout,
+            onDrawSuccess : handlers.drawSuccess,
+            onDrawStart : handlers.drawStart,
+            onDrawEnd : handlers.drawEnd,
+            onPrizeListReady : handlers.prizeListReady
+        });
+        
+        lucky.getPrizeList();
+    });
+</script>
+</html>
