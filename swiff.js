@@ -5,46 +5,48 @@
  * Time: 上午10:34
  * To change this template use File | Settings | File Templates.
  */
-;(function (D){
+;
+(function (D) {
     //@const
     var EMPTY = "",
-    NULL = null,
-    NOOP = function (){},
-    UNDEFINED = undefined,
-    PREFIX = "SWF",
+        NULL = null,
+        NOOP = function () {
+        },
+        UNDEFINED = undefined,
+        PREFIX = "SWF",
 
 
     //@absolutly private
-    uid = 0;
+        uid = 0;
 
     var SwfObject = new Class({
-        initialize : function (options){
+        initialize:function (options) {
             var self = this;
 
             self.setOptions(options);
-            self._uid = uid ++;
+            self._uid = uid++;
             self.movieName = PREFIX + uid;
             //load flash
             self._loadFlash();
             // release memory
 
         },
-        options : {
-            wrap : NULL
+        options:{
+            wrap:NULL
         },
         //@events
-        onLoaded : NOOP,
+        onLoaded:NOOP,
 
-        Implements : [Events, Options],
-        version : "1.0.0",
-        movieName : EMPTY,
-        movieElement : NULL,
-        _uid : 0,
+        Implements:[Events, Options],
+        version:"1.0.0",
+        movieName:EMPTY,
+        movieElement:NULL,
+        _uid:0,
         /**
          * build flash html
          * @private
          */
-        _buildFlash : function (){
+        _buildFlash:function () {
             var self = this,
                 opts = self.options,
                 flashUrl = opts.flashUrl;
@@ -53,46 +55,46 @@
             if (!opts.cached) {
                 flashUrl = flashUrl + (flashUrl.indexOf("?") < 0 ? "?" : "&") + "ts=" + new Date().getTime();
             }
-	        // Flash Satay object syntax: http://www.alistapart.com/articles/flashsatay
+            // Flash Satay object syntax: http://www.alistapart.com/articles/flashsatay
             return ['<object id="', this.movieName, '" type="application/x-shockwave-flash" data="', flashUrl, '" width="', opts.width, '" height="', opts.height, '">',
-                        '<param name="wmode" value="', opts.wmode, '" />',
-                        '<param name="movie" value="', flashUrl, '" />',
-                        '<param name="quality" value="high" />',
-                        '<param name="menu" value="false" />',
-                        '<param name="allowScriptAccess" value="always" />',
-                        '<param name="flashvars" value="' + this._getFlashVars() + '" />',
-                        '</object>'].join("");
+                '<param name="wmode" value="', opts.wmode, '" />',
+                '<param name="movie" value="', flashUrl, '" />',
+                '<param name="quality" value="high" />',
+                '<param name="menu" value="false" />',
+                '<param name="allowScriptAccess" value="always" />',
+                '<param name="flashvars" value="' + this._getFlashVars() + '" />',
+                '</object>'].join("");
         },
         /**
          * get flash parameters
          * @private
          */
-        _getFlashVars : function (){
+        _getFlashVars:function () {
             return D.toQueryString(this.options.postData);
         },
         /**
          * init flash setting in javascript
          * @private
          */
-        _initSetting : function (){
+        _initSetting:function () {
 
         },
         /**
          * destroy flash element
          */
-        destroy : function (){
+        destroy:function () {
 
         },
         /**
          * inject swf into html wrap
          * @private
          */
-        _loadFlash : function (){
+        _loadFlash:function () {
             var self = this,
                 wrap = self.wrap,
                 movieName = self.movieName;
             //if no wrap for flash, stop initializing
-            if(!wrap) return;
+            if (!wrap) return;
             // Make sure an element with the ID we are going to use doesn't already exist
             if (document.getElementById(movieName) !== null) {
                 throw "ID " + movieName + " is already in use. The Flash Object could not be added";
@@ -104,7 +106,7 @@
         /**
          * get prize list from server
          */
-        getPrizeList : function (){
+        getPrizeList:function () {
 
         },
         /**
@@ -112,13 +114,13 @@
          * @public
          * @returns {JSON}
          */
-        draw : function (){
+        draw:function () {
 
         },
-	// Private: unescapeFileParams is part of a workaround for a flash bug where objects passed through ExternalInterface cannot have
-	// properties that contain characters that are not valid for JavaScript identifiers. To work around this
-	// the Flash Component escapes the parameter names and we must unescape again before passing them along.
-        unescapeFilePostParams : function(file) {
+        // Private: unescapeFileParams is part of a workaround for a flash bug where objects passed through ExternalInterface cannot have
+        // properties that contain characters that are not valid for JavaScript identifiers. To work around this
+        // the Flash Component escapes the parameter names and we must unescape again before passing them along.
+        unescapeFilePostParams:function (file) {
             var reg = /[$]([0-9a-f]{4})/i;
             var unescapedPost = {};
             var uk;
@@ -140,7 +142,7 @@
 
             return file;
         },
-        getMovieElement : function (){
+        getMovieElement:function () {
             var self = this;
 
             return self.movieElement || document.getElementById(self.movieName);
@@ -150,11 +152,11 @@
          * @param fn
          * @param args
          */
-        _callFlash : function(fn, args) {
+        _callFlash:function (fn, args) {
             args = args || [];
             var self = this,
                 movieElement = self.getMovieElement();
-                returnValue,
+            returnValue,
                 returnString;
 
             // Flash's method if calling ExternalInterface methods (code adapted from MooTools).
@@ -172,7 +174,7 @@
 
             return returnValue;
         },
-        testExternalInterface : function (){
+        testExternalInterface:function () {
             try {
                 return this._callFlash("TestExternalInterface");
             } catch (ex) {
